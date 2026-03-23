@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Ecosystem Handbook — By Shubham</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0d;
+  --bg2: #111318;
+  --bg3: #181c24;
+  --bg4: #1e2330;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --gold: #f0c040;
+  --gold2: #e8a820;
+  --teal: #2dd4bf;
+  --coral: #f87171;
+  --purple: #a78bfa;
+  --blue: #60a5fa;
+  --text: #e8e6e0;
+  --text2: #8b8d95;
+  --text3: #5a5d68;
+  --success: #34d399;
+  --radius: 10px;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--gold); }
+.header-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--success);
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* NAV TABS */
+.nav {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav-tab {
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* MAIN LAYOUT */
+.main { padding: 32px; max-width: 1200px; margin: 0 auto; }
+.tab-panel { display: none; animation: fadein 0.3s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* CARDS */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border2); }
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.card-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.card-subtitle {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 3px;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-gold { background: rgba(240,192,64,0.12); color: var(--gold); border: 1px solid rgba(240,192,64,0.25); }
+.badge-teal { background: rgba(45,212,191,0.1); color: var(--teal); border: 1px solid rgba(45,212,191,0.2); }
+.badge-purple { background: rgba(167,139,250,0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+.badge-coral { background: rgba(248,113,113,0.1); color: var(--coral); border: 1px solid rgba(248,113,113,0.2); }
+.badge-blue { background: rgba(96,165,250,0.1); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+
+/* PROMPT BOX */
+.prompt-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: #c9d1e0;
+  position: relative;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 10px;
+}
+.prompt-var { color: var(--gold); font-weight: 500; }
+.copy-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+.copy-btn:hover { color: var(--gold); border-color: rgba(240,192,64,0.3); }
+.copy-btn.copied { color: var(--success); border-color: rgba(52,211,153,0.3); }
+
+/* ALTERNATES */
+.alternates-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 12px;
+  margin-bottom: 8px;
+  user-select: none;
+  transition: color 0.2s;
+}
+.alternates-toggle:hover { color: var(--text); }
+.alternates-toggle .arrow { transition: transform 0.2s; font-size: 10px; }
+.alternates-toggle.open .arrow { transform: rotate(90deg); }
+.alternates-panel { display: none; }
+.alternates-panel.open { display: block; }
+.alt-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+/* SECTION TITLE */
+.section-title {
+  font-family: var(--font-head);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.section-subtitle { color: var(--text2); font-size: 13px; margin-bottom: 28px; }
+
+/* LAYER BADGE */
+.layer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* TOOLS TABLE */
+.tools-table { width: 100%; border-collapse: collapse; }
+.tools-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tools-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 13px;
+}
+.tools-table tr:last-child td { border-bottom: none; }
+.tools-table tr:hover td { background: rgba(255,255,255,0.02); }
+.tool-name { font-weight: 500; color: var(--text); }
+.tool-desc { color: var(--text2); font-size: 12px; }
+.tool-cost { font-family: var(--font-mono); font-size: 11px; }
+.free { color: var(--success); }
+.paid { color: var(--gold); }
+
+/* FLOW STEPS */
+.flow-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gold);
+  flex-shrink: 0;
+  font-weight: 500;
+}
+.step-content h4 { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.step-content p { color: var(--text2); font-size: 13px; }
+
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+/* HERO BANNER (master tab) */
+.hero {
+  background: linear-gradient(135deg, rgba(240,192,64,0.05) 0%, rgba(45,212,191,0.05) 100%);
+  border: 1px solid rgba(240,192,64,0.15);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(240,192,64,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-title {
+  font-family: var(--font-head);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.hero-title span { color: var(--gold); }
+.hero-body { color: var(--text2); font-size: 14px; max-width: 600px; line-height: 1.8; }
+
+/* LAYER OVERVIEW */
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+.layer-row:hover { border-color: var(--border2); cursor: pointer; }
+.layer-num {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 800;
+  opacity: 0.15;
+  width: 32px;
+  flex-shrink: 0;
+}
+.layer-info h3 { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.layer-info p { color: var(--text2); font-size: 12px; }
+.layer-tag { margin-left: auto; }
+
+/* ACCORDION */
+.accordion { margin-bottom: 12px; }
+.acc-header {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+.acc-header:hover { border-color: var(--border2); }
+.acc-header.open { border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
+.acc-body {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s;
+}
+.acc-body.open { padding: 18px; max-height: 3000px; }
+.acc-arrow { transition: transform 0.25s; color: var(--text3); font-size: 12px; }
+.acc-header.open .acc-arrow { transform: rotate(90deg); color: var(--gold); }
+
+/* CHECKLIST */
+.checklist { list-style: none; }
+.checklist li {
+  padding: 6px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon { color: var(--gold); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">PRODUCT<span>OS</span> <span style="color:var(--text3);font-weight:400;font-size:14px">Handbook</span></div>
+  <div class="header-meta"><span class="status-dot"></span>LIVE · 5 LAYERS · ALL PROMPTS · BY SHUBHAM</div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-tab active" onclick="switchTab('master')">🗺 Master Blueprint</button>
+  <button class="nav-tab" onclick="switchTab('validation')">💡 Idea → Validation</button>
+  <button class="nav-tab" onclick="switchTab('product')">📋 Product Planning</button>
+  <button class="nav-tab" onclick="switchTab('tech')">⚙️ Tech Architecture</button>
+  <button class="nav-tab" onclick="switchTab('business')">💰 Business Model</button>
+  <button class="nav-tab" onclick="switchTab('build')">🔨 Build Engine</button>
+  <button class="nav-tab" onclick="switchTab('client')">🤝 Client Loop</button>
+  <button class="nav-tab" onclick="switchTab('prompts')">📚 Prompt Library</button>
+  <button class="nav-tab" onclick="switchTab('tools')">🧰 Tools Arsenal</button>
+</div>
+
+<div class="main">
+
+<!-- ========== TAB: MASTER BLUEPRINT ========== -->
+<div class="tab-panel active" id="tab-master">
+  <div class="hero">
+    <div class="hero-title">From <span>Any Idea</span> to<br>Stable Business — The OS</div>
+    <div class="hero-body">A complete orchestration system: 5 ecosystem layers, 100+ prompts, alternate variants, tool stack, and client loop — all designed to be run with Claude Opus/Sonnet as your AI co-founder.</div>
+  </div>
+
+  <div class="section-title">The 5-Layer Ecosystem</div>
+  <div class="section-subtitle">Each layer is independent but feeds the next. Build in order.</div>
+
+  <div class="layer-row" onclick="switchTab('validation')">
+    <div class="layer-num">1</div>
+    <div class="layer-info"><h3>Core AI Engine</h3><p>Idea validation · Market research · Problem-solution fit · Persona mapping</p></div>
+    <div class="layer-tag"><span class="badge badge-gold">START HERE</span></div>
+  </div>
+  <div class="layer-row" onclick="switchTab('product')">
+    <div class="layer-num">2</div>
+    <div class="layer-info"><h3>Product Planning</h3><p>PRDs · Roadmaps · User stories · MVP scoping · Feature prioritization</p></div>
+    <div class="layer-tag"><span class="badge badge-teal">WEEK 1–2</span></div>
+  </div>
+  <div class="layer-row" onclick="switchTab('tech')">
+    <div class="layer-num">3</div>
+    <div class="layer-info"><h3>Tech Architecture</h3><p>Stack decisions · System design · DB schema · API design · Infrastructure</p></div>
+    <div class="layer-tag"><span class="badge badge-purple">WEEK 2–3</span></div>
+  </div>
+  <div class="layer-row" onclick="switchTab('business')">
+    <div class="layer-num">4</div>
+    <div class="layer-info"><h3>Business Model + GTM</h3><p>Pricing · Revenue streams · GTM strategy · Unit economics · Competitors</p></div>
+    <div class="layer-tag"><span class="badge badge-coral">WEEK 3–4</span></div>
+  </div>
+  <div class="layer-row" onclick="switchTab('build')">
+    <div class="layer-num">5</div>
+    <div class="layer-info"><h3>Build + Launch Engine</h3><p>Code generation · Testing · Deploy · Marketing copy · Community bootstrap</p></div>
+    <div class="layer-tag"><span class="badge badge-blue">WEEK 4+</span></div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-title">Master Orchestration Flow</div>
+  <div class="section-subtitle">The exact order to run everything. Do not skip steps.</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Phase 1 — Discover</div>
+      <div class="flow-step"><div class="step-num">01</div><div class="step-content"><h4>Run the Idea Extraction Prompt</h4><p>Get the raw idea out of the client's head in structured form</p></div></div>
+      <div class="flow-step"><div class="step-num">02</div><div class="step-content"><h4>Market Validation Prompt</h4><p>Claude searches for market size, existing solutions, gaps</p></div></div>
+      <div class="flow-step"><div class="step-num">03</div><div class="step-content"><h4>Persona Generation Prompt</h4><p>Define 2–3 ICPs with jobs-to-be-done</p></div></div>
+      <div class="flow-step"><div class="step-num">04</div><div class="step-content"><h4>Feasibility Scorecard Prompt</h4><p>Score: market, tech, capital, timing, competition</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Phase 2 — Plan</div>
+      <div class="flow-step"><div class="step-num">05</div><div class="step-content"><h4>PRD Generation Prompt</h4><p>Full product requirements document in one shot</p></div></div>
+      <div class="flow-step"><div class="step-num">06</div><div class="step-content"><h4>MVP Scope Prompt</h4><p>Define the smallest thing that proves the thesis</p></div></div>
+      <div class="flow-step"><div class="step-num">07</div><div class="step-content"><h4>Tech Stack Decision Prompt</h4><p>Recommend stack based on constraints and timeline</p></div></div>
+      <div class="flow-step"><div class="step-num">08</div><div class="step-content"><h4>Business Model Prompt</h4><p>Define monetization, pricing tiers, unit economics</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Phase 3 — Build</div>
+      <div class="flow-step"><div class="step-num">09</div><div class="step-content"><h4>Architecture Design Prompt</h4><p>System diagram, data flow, API contracts</p></div></div>
+      <div class="flow-step"><div class="step-num">10</div><div class="step-content"><h4>Component Build Prompts</h4><p>Auth, DB, frontend, backend — module by module</p></div></div>
+      <div class="flow-step"><div class="step-num">11</div><div class="step-content"><h4>Integration Prompt</h4><p>Connect all modules, third-party APIs, payments</p></div></div>
+      <div class="flow-step"><div class="step-num">12</div><div class="step-content"><h4>QA + Test Prompt</h4><p>Edge cases, error handling, security review</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">Phase 4 — Launch</div>
+      <div class="flow-step"><div class="step-num">13</div><div class="step-content"><h4>Launch Copy Prompt</h4><p>Landing page, Product Hunt post, cold email</p></div></div>
+      <div class="flow-step"><div class="step-num">14</div><div class="step-content"><h4>Community Bootstrap Prompt</h4><p>Discord/Reddit/X strategy for first 100 users</p></div></div>
+      <div class="flow-step"><div class="step-num">15</div><div class="step-content"><h4>Feedback Loop Prompt</h4><p>User interview template, survey, NPS flow</p></div></div>
+      <div class="flow-step"><div class="step-num">16</div><div class="step-content"><h4>Iteration Sprint Prompt</h4><p>Weekly sprint planning from user feedback</p></div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="card" style="background:rgba(240,192,64,0.04);border-color:rgba(240,192,64,0.15)">
+    <div class="card-title">The Golden Rule of Orchestration</div>
+    <div style="margin-top:12px;color:var(--text2);font-size:13px;line-height:1.9">
+      Every prompt should output <strong style="color:var(--text)">structured data</strong> (JSON, tables, or markdown) that becomes the <strong style="color:var(--text)">input context</strong> for the next prompt. 
+      Never start a new session cold — always pass forward the output of the previous stage. 
+      Build a <strong style="color:var(--gold)">running product document</strong> that grows with each step. 
+      This document is your product's brain, and Claude reads it at the start of every session.
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB: IDEA VALIDATION ========== -->
+<div class="tab-panel" id="tab-validation">
+  <div class="section-title">Layer 1 — Idea → Validation</div>
+  <div class="section-subtitle">Extract, stress-test, and validate any idea before writing a single line of code.</div>
+
+  <!-- Prompt 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">PROMPT V-01</div><div class="card-title">Idea Extraction & Structuring</div><div class="card-subtitle">Use first. Pulls a structured idea out of vague client thinking.</div></div>
+      <span class="badge badge-gold">CRITICAL</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a world-class product strategist. I have a business idea I want to explore.
+
+Help me structure it by asking me 10 sharp questions — one at a time — that will uncover:
+1. The exact problem being solved
+2. Who experiences this problem most acutely
+3. How they currently solve it (workarounds)
+4. What makes this idea unique
+5. The scale of the opportunity
+
+After my answers, output a structured <span class="prompt-var">IDEA BRIEF</span> in this format:
+- Problem Statement (1 sentence)
+- Target User (1 sentence)
+- Proposed Solution (2 sentences)
+- Unique Angle (1 sentence)
+- Biggest Risk (1 sentence)
+- Opportunity Size Guess (rough)
+
+My idea: <span class="prompt-var">[PASTE YOUR RAW IDEA HERE]</span></div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show 2 alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Speed version (single shot, no Q&A)</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a startup validator. Given this raw idea: <span class="prompt-var">[IDEA]</span>
+
+Output a structured brief with no back-and-forth:
+- Core problem, target user, solution, moat, risk, opportunity size.
+Be direct, use bullet points, no fluff.</div>
+      <div class="alt-label">Alt B — Devil's advocate version</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a VC who has seen 10,000 pitches and rejects 99% of them.
+
+I'm going to pitch you this idea: <span class="prompt-var">[IDEA]</span>
+
+Tear it apart. Tell me every reason it will fail. Then — and only then — tell me the 1–2 things that could make it work anyway. Be brutal.</div>
+    </div>
+  </div>
+
+  <!-- Prompt 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">PROMPT V-02</div><div class="card-title">Market Size & Opportunity Analysis</div><div class="card-subtitle">TAM/SAM/SOM analysis with web search enabled.</div></div>
+      <span class="badge badge-teal">USE WEB SEARCH</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a market research analyst. Use web search to research the market for:
+
+Product Category: <span class="prompt-var">[CATEGORY]</span>
+Target Geography: <span class="prompt-var">[GEOGRAPHY]</span>
+Target User: <span class="prompt-var">[USER TYPE]</span>
+
+Find and calculate:
+1. TAM — Total Addressable Market (cite sources)
+2. SAM — Serviceable Addressable Market (realistic subset)
+3. SOM — Serviceable Obtainable Market (year 1–3 target)
+4. Market growth rate (CAGR)
+5. Top 5 existing players and their funding/revenue
+6. Market gaps that are underserved
+
+Output as a clean table + 3-sentence market narrative.</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show 2 alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Niche market version</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Research a niche market for <span class="prompt-var">[IDEA]</span>. 
+Focus on: adjacent markets, underserved segments, and unconventional competitors (people solving this differently). 
+Find the 'hair on fire' segment — users who need this most urgently.</div>
+      <div class="alt-label">Alt B — Trend analysis version</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Research macro trends driving demand for <span class="prompt-var">[IDEA]</span>.
+Use web search to find: Google Trends data, recent news, VC investment trends in this category, 
+and regulatory tailwinds/headwinds. Output: Is now the right time? Why or why not?</div>
+    </div>
+  </div>
+
+  <!-- Prompt 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">PROMPT V-03</div><div class="card-title">Competitor Deep-Dive</div><div class="card-subtitle">Map the competitive landscape and find the whitespace.</div></div>
+      <span class="badge badge-teal">USE WEB SEARCH</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a competitive intelligence expert. Research competitors for:
+
+Idea: <span class="prompt-var">[IDEA]</span>
+
+Find the top 8 competitors (direct + indirect). For each, output:
+| Competitor | Founded | Funding | Pricing | Target User | Key Feature | Weakness |
+
+Then:
+1. Draw a 2x2 positioning map (Price vs Feature Depth)
+2. Identify the positioning gap where our product can win
+3. List 3 features competitors all have (table stakes)
+4. List 3 features no competitor offers well (our opportunity)
+
+End with: "Our defensible position should be..."</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alt version</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — SWOT for each competitor</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>For the top 3 competitors to <span class="prompt-var">[IDEA]</span>, do a SWOT analysis for each.
+Then answer: If we copied their strength and fixed their weakness — what product would that be?
+That product is our v1.</div>
+    </div>
+  </div>
+
+  <!-- Prompt 4 -->
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">PROMPT V-04</div><div class="card-title">User Persona Generation</div><div class="card-subtitle">Create 3 detailed ICPs with jobs, pains, and willingness to pay.</div></div>
+      <span class="badge badge-purple">HIGH VALUE</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a user research expert. Create 3 detailed Ideal Customer Profiles for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Problem solved: <span class="prompt-var">[PROBLEM]</span>
+
+For each persona, define:
+- Name, Age, Job Title, Company Size
+- Daily workflow (relevant parts)
+- Top 3 frustrations related to our problem
+- How they currently solve it (tools, workarounds)
+- What a 10x better solution would mean for them
+- Willingness to pay (monthly, annual)
+- Where they hang out online (channels to reach them)
+- What they'd Google to find us
+- Emotional buying trigger ("I'd pay for this the day it could...")
+
+Format each as a persona card. Then rank: which persona should we build for first and why?</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alt version</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Anti-persona (who NOT to build for)</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Create 2 anti-personas for <span class="prompt-var">[PRODUCT]</span> — 
+users who seem like our market but will churn, demand too much support, 
+or never pay. Describe who they are and why we should explicitly exclude them from our ICP.</div>
+    </div>
+  </div>
+
+  <!-- Prompt 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">PROMPT V-05</div><div class="card-title">Feasibility Scorecard</div><div class="card-subtitle">Score the idea across 8 dimensions before committing capital.</div></div>
+      <span class="badge badge-coral">GATE CHECK</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Score this business idea across 8 dimensions. Use the context below.
+
+Idea: <span class="prompt-var">[IDEA BRIEF FROM V-01]</span>
+Market research: <span class="prompt-var">[PASTE V-02 OUTPUT]</span>
+Founders: <span class="prompt-var">[SKILLS / TEAM]</span>
+Capital available: <span class="prompt-var">[BUDGET]</span>
+Timeline goal: <span class="prompt-var">[TIMELINE]</span>
+
+Score each 1–10 with a 1-line rationale:
+1. Market Size (is there enough demand?)
+2. Problem Urgency (do people need this now?)
+3. Technical Feasibility (can it be built with available resources?)
+4. Capital Efficiency (can we validate cheaply?)
+5. Competitive Moat (can we defend against copycats?)
+6. Team-Market Fit (are we the right people for this?)
+7. Revenue Clarity (is the path to $1 obvious?)
+8. Timing (is the market ready?)
+
+Total score: /80. Verdict: GO / NO-GO / PIVOT with reasoning.</div>
+  </div>
+</div>
+
+<!-- ========== TAB: PRODUCT PLANNING ========== -->
+<div class="tab-panel" id="tab-product">
+  <div class="section-title">Layer 2 — Product Planning</div>
+  <div class="section-subtitle">Turn a validated idea into a precise product spec that builders can execute on.</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-teal" style="background:rgba(45,212,191,0.08);color:var(--teal)">PROMPT P-01</div><div class="card-title">Full PRD Generation</div><div class="card-subtitle">One prompt → complete Product Requirements Document.</div></div>
+      <span class="badge badge-gold">CRITICAL</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a senior Product Manager at a top-tier startup.
+
+Using this context:
+- Idea Brief: <span class="prompt-var">[V-01 OUTPUT]</span>
+- Primary Persona: <span class="prompt-var">[V-04 PERSONA 1]</span>
+- Feasibility Score: <span class="prompt-var">[V-05 OUTPUT]</span>
+
+Write a complete PRD with these sections:
+
+## 1. Product Vision
+One sentence that defines the north star.
+
+## 2. Problem Statement
+The exact problem, who has it, and what it costs them today.
+
+## 3. Goals & Success Metrics
+3 business goals + KPIs for each (measurable, time-bound).
+
+## 4. User Stories
+Top 10 user stories in format: "As a [persona], I want to [action] so that [outcome]."
+Include acceptance criteria for each.
+
+## 5. Feature List
+Organize as: Must Have / Should Have / Nice to Have (MoSCoW).
+For each feature: name, description, user benefit, complexity estimate (S/M/L).
+
+## 6. Out of Scope
+5 things we explicitly will NOT build in v1.
+
+## 7. Open Questions
+Top 5 things we need to validate with users before building.
+
+## 8. Launch Criteria
+What must be true for us to call this MVP "launched"?</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — One-page lightweight PRD (for speed)</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Write a 1-page PRD for <span class="prompt-var">[IDEA]</span>. 
+Max 500 words. Include only: problem, users, top 5 features, success metric, and what we're NOT building.
+This should fit on a single Notion page.</div>
+      <div class="alt-label">Alt B — Jobs-to-be-done framework PRD</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Write a JTBD-first PRD for <span class="prompt-var">[IDEA]</span>.
+Structure every feature around: "When [situation], users want to [job], so they [outcome]."
+Do not mention technology. Focus purely on the job the product is hired to do.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-teal" style="background:rgba(45,212,191,0.08);color:var(--teal)">PROMPT P-02</div><div class="card-title">MVP Scope Definition</div><div class="card-subtitle">Cut ruthlessly. Define the smallest thing that proves value.</div></div>
+      <span class="badge badge-coral">ANTI-BLOAT</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a lean startup expert. Your job is to REDUCE scope, not add to it.
+
+Given this PRD: <span class="prompt-var">[P-01 OUTPUT]</span>
+
+Answer these questions ruthlessly:
+1. If we could only ship ONE feature — which one delivers the core value promise?
+2. For each Must-Have feature: what is the 80% version that takes 20% of the time?
+3. What assumptions are we making that we haven't tested yet?
+4. What is the riskiest assumption? How do we test it in 1 week without building anything?
+5. Draw a "walking skeleton" — the thinnest possible end-to-end flow that a real user could use.
+
+Output: MVP Feature Set (max 5 features), Timeline estimate, and ONE metric that proves the MVP worked.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-teal" style="background:rgba(45,212,191,0.08);color:var(--teal)">PROMPT P-03</div><div class="card-title">Roadmap Generation (3 Phases)</div><div class="card-subtitle">Now / Next / Later roadmap with rationale.</div></div>
+      <span class="badge badge-blue">STRATEGIC</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Create a 3-phase product roadmap for <span class="prompt-var">[PRODUCT]</span>.
+
+Context: <span class="prompt-var">[PRD + MVP SCOPE]</span>
+Team size: <span class="prompt-var">[TEAM]</span>
+Timeline: <span class="prompt-var">[MONTHS]</span>
+
+Phase 1 — NOW (Month 1–2): MVP. Survive.
+Phase 2 — NEXT (Month 3–5): Retention + first revenue.
+Phase 3 — LATER (Month 6–12): Growth + moat.
+
+For each phase:
+- Features shipped
+- Key metric to move
+- What we learn
+- Resource requirement
+- Go/No-go criteria to advance to next phase
+
+Format as a table. Add a risk column for each phase.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-teal" style="background:rgba(45,212,191,0.08);color:var(--teal)">PROMPT P-04</div><div class="card-title">User Story Generator</div><div class="card-subtitle">Generate complete user stories with acceptance criteria for any feature.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Generate complete user stories for this feature:
+
+Feature: <span class="prompt-var">[FEATURE NAME]</span>
+Product: <span class="prompt-var">[PRODUCT]</span>
+Primary User: <span class="prompt-var">[PERSONA]</span>
+
+For each story:
+- User story: "As a [role], I want [action] so that [outcome]"
+- Acceptance criteria (Given / When / Then format)
+- Edge cases to handle
+- Out of scope for this story
+- UI/UX considerations
+- API needed (if any)
+- Estimated complexity: XS / S / M / L / XL
+
+Generate: 1 happy path story + 2 edge case stories + 1 error state story.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-teal" style="background:rgba(45,212,191,0.08);color:var(--teal)">PROMPT P-05</div><div class="card-title">Feature Prioritization (RICE Score)</div><div class="card-subtitle">Objectively rank your backlog using RICE framework.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Score and rank this feature backlog using the RICE framework.
+
+Product context: <span class="prompt-var">[PRODUCT + USERS]</span>
+Features to score: <span class="prompt-var">[LIST ALL FEATURES]</span>
+
+For each feature, estimate:
+- Reach: How many users affected per quarter? (number)
+- Impact: How much does it move our core metric? (0.25 / 0.5 / 1 / 2 / 3)
+- Confidence: How sure are we? (%) 
+- Effort: Person-weeks to build
+
+RICE Score = (Reach × Impact × Confidence) / Effort
+
+Output as a ranked table. Flag the top 3 as "Sprint 1" and explain why they're the right bet.</div>
+  </div>
+</div>
+
+<!-- ========== TAB: TECH ARCHITECTURE ========== -->
+<div class="tab-panel" id="tab-tech">
+  <div class="section-title">Layer 3 — Tech Architecture</div>
+  <div class="section-subtitle">Make smart stack decisions and design systems that scale without over-engineering.</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-purple" style="background:rgba(167,139,250,0.08);color:var(--purple)">PROMPT T-01</div><div class="card-title">Tech Stack Recommendation</div><div class="card-subtitle">Get a justified, constraint-aware stack decision.</div></div>
+      <span class="badge badge-gold">CRITICAL</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a senior CTO advisor. Recommend a tech stack for:
+
+Product type: <span class="prompt-var">[WEB APP / MOBILE / API / SAAS]</span>
+Expected users (year 1): <span class="prompt-var">[NUMBER]</span>
+Team skills: <span class="prompt-var">[LANGUAGES / FRAMEWORKS KNOWN]</span>
+Budget: <span class="prompt-var">[MONTHLY INFRA BUDGET]</span>
+Timeline to MVP: <span class="prompt-var">[WEEKS]</span>
+Core features: <span class="prompt-var">[TOP 5 FEATURES]</span>
+
+Recommend:
+1. Frontend framework + why
+2. Backend framework + why
+3. Database (primary + cache) + why
+4. Auth solution + why
+5. File storage + why
+6. Email service + why
+7. Payments + why
+8. Hosting/deploy + why
+9. Monitoring + why
+10. AI/LLM integration + why
+
+For each: free tier available? Monthly cost at 1000 users? Alternative if this fails?
+
+Final output: starter repo structure + estimated monthly cost at 3 scales (100 / 1K / 10K users).</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Zero-code / low-code stack</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Recommend a no-code / low-code stack for <span class="prompt-var">[PRODUCT]</span> 
+for a non-technical founder with $200/month budget.
+Tools: Bubble / Webflow / Supabase / Zapier / Make / Airtable / etc.
+Speed over scalability. What can be live in 2 weeks?</div>
+      <div class="alt-label">Alt B — Minimum infra stack (under $50/month)</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design a tech stack for <span class="prompt-var">[PRODUCT]</span> that costs under $50/month to run,
+handles up to 500 active users, and can be maintained by 1 developer.
+Prioritize: managed services, free tiers, serverless, and simplicity over performance.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-purple" style="background:rgba(167,139,250,0.08);color:var(--purple)">PROMPT T-02</div><div class="card-title">System Architecture Design</div><div class="card-subtitle">Design the full system before writing any code.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design the system architecture for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Stack: <span class="prompt-var">[T-01 OUTPUT]</span>
+Core features: <span class="prompt-var">[TOP FEATURES]</span>
+
+Output:
+1. Component diagram (describe all services and how they connect)
+2. Data flow: trace a user's full journey from login to core action
+3. API structure: list all endpoints (method, path, purpose, auth required)
+4. Database tables: name, key fields, relationships
+5. Third-party integrations and their role
+6. Security boundaries (what is public vs private)
+7. Caching strategy
+8. Failure points and fallback plan for each
+
+Format the API list as a table. Format DB tables as schema definitions.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-purple" style="background:rgba(167,139,250,0.08);color:var(--purple)">PROMPT T-03</div><div class="card-title">Database Schema Design</div><div class="card-subtitle">Design a complete, normalized database from scratch.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design a complete database schema for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Database: <span class="prompt-var">[POSTGRES / MYSQL / MONGODB]</span>
+Core entities: <span class="prompt-var">[LIST MAIN DATA OBJECTS]</span>
+
+For each table:
+- Table name
+- All columns with types, constraints, defaults
+- Primary key, foreign keys, indexes
+- Relationships (1:1, 1:many, many:many)
+
+Rules:
+- Normalize to 3NF minimum
+- Include: created_at, updated_at, soft delete (deleted_at) on all main tables
+- Multi-tenancy support (if SaaS): org_id on all tenant-scoped tables
+- Include Row Level Security policies if using Supabase
+
+Output as SQL CREATE TABLE statements + an ERD description.
+Flag any design decisions that involve tradeoffs.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-purple" style="background:rgba(167,139,250,0.08);color:var(--purple)">PROMPT T-04</div><div class="card-title">AI/LLM Integration Architecture</div><div class="card-subtitle">Design how Claude/GPT plugs into the product correctly.</div></div>
+      <span class="badge badge-teal">AI-SPECIFIC</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design the AI integration layer for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+AI model to use: <span class="prompt-var">[Claude Sonnet / GPT-4o / Gemini]</span>
+AI features needed: <span class="prompt-var">[LIST AI FEATURES]</span>
+
+Design:
+1. Prompt architecture (system prompt structure, context injection, user input handling)
+2. Context window management (what goes in, what gets summarized, what is cut)
+3. Streaming vs batch (which features need streaming output?)
+4. Cost control (estimate tokens per feature, monthly cost at 1K users)
+5. Caching strategy (what AI outputs can be cached?)
+6. Fallback plan (if API is down or rate limited)
+7. Evaluation loop (how do we know if AI responses are good?)
+8. Safety filters (what outputs do we block or review?)
+
+Output the system prompt template for the core AI feature. Include [VARIABLES] in caps.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-purple" style="background:rgba(167,139,250,0.08);color:var(--purple)">PROMPT T-05</div><div class="card-title">Security Review Checklist</div><div class="card-subtitle">Security audit before launch — non-negotiable.</div></div>
+      <span class="badge badge-coral">REQUIRED</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Perform a security review for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Stack: <span class="prompt-var">[STACK]</span>
+Data stored: <span class="prompt-var">[USER DATA TYPES]</span>
+
+Review and give pass/fail + fix for each:
+
+Auth & Access:
+□ JWT expiry + refresh strategy
+□ Rate limiting on auth endpoints
+□ Password hashing (bcrypt/argon2)
+□ OAuth token storage
+□ RBAC / permissions model
+
+Data Security:
+□ SQL injection prevention
+□ XSS prevention
+□ CSRF protection
+□ Sensitive data encryption at rest
+□ Secure API key management
+□ PII data handling compliance
+
+Infrastructure:
+□ HTTPS everywhere
+□ Env vars vs hardcoded secrets
+□ Dependency vulnerability scan
+□ Logging (no PII in logs)
+□ Backup strategy
+
+Output: Priority-ordered fix list with code snippets for critical issues.</div>
+  </div>
+</div>
+
+<!-- ========== TAB: BUSINESS MODEL ========== -->
+<div class="tab-panel" id="tab-business">
+  <div class="section-title">Layer 4 — Business Model + GTM</div>
+  <div class="section-subtitle">Define how the product makes money and how the first 100 customers find it.</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-coral" style="background:rgba(248,113,113,0.08);color:var(--coral)">PROMPT B-01</div><div class="card-title">Revenue Model Design</div><div class="card-subtitle">Design the complete monetization architecture.</div></div>
+      <span class="badge badge-gold">CRITICAL</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a monetization strategist. Design the revenue model for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Personas: <span class="prompt-var">[ICP 1, ICP 2, ICP 3]</span>
+Competitors' pricing: <span class="prompt-var">[FROM V-02]</span>
+Our differentiation: <span class="prompt-var">[UNIQUE ANGLE]</span>
+
+Design:
+1. Primary revenue model (subscription / usage / marketplace / freemium / one-time)
+2. Pricing tiers (3 recommended): name, price, what's included, who it's for
+3. Free tier scope (what's free and why — acquisition or goodwill?)
+4. Upsell triggers (what feature makes users upgrade?)
+5. Annual vs monthly discount strategy
+6. Enterprise/custom tier criteria
+7. Expansion revenue opportunities (seats, usage, add-ons)
+
+Calculate unit economics:
+- ARPU target (average revenue per user)
+- Target gross margin %
+- Payback period assumption
+- MRR needed to cover $<span class="prompt-var">[MONTHLY COSTS]</span> in operating costs
+
+Output a pricing page copy draft for each tier.</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Usage-based pricing model</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design a usage-based pricing model for <span class="prompt-var">[PRODUCT]</span>.
+What is the billing unit (API calls / seats / documents / outputs)?
+Set pricing per unit, include a free quota, and design overage pricing.
+Calculate: revenue at 100 / 500 / 1000 active users.</div>
+      <div class="alt-label">Alt B — Marketplace / commission model</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Design a marketplace revenue model for <span class="prompt-var">[PRODUCT]</span>.
+What % commission is defensible? What services can we add (featured listings, subscriptions)?
+How do we bootstrap supply and demand simultaneously?
+When does the commission model break and what do we switch to?</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-coral" style="background:rgba(248,113,113,0.08);color:var(--coral)">PROMPT B-02</div><div class="card-title">Go-To-Market Strategy</div><div class="card-subtitle">The exact plan to get first 100 paying customers.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a GTM expert. Create a go-to-market plan for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Primary ICP: <span class="prompt-var">[PERSONA 1]</span>
+Budget: <span class="prompt-var">[MARKETING BUDGET]</span>
+Goal: First 100 paying customers in <span class="prompt-var">[TIMEFRAME]</span>
+
+Design:
+1. Launch channels (rank by: low cost, fast feedback, right audience)
+2. Week 1–2: Pre-launch (waitlist, community seeding, beta recruitment)
+3. Week 3–4: Launch (Product Hunt, HN, Reddit, newsletters, cold outreach)
+4. Month 2–3: Growth (content, SEO foundations, partnership, paid experiments)
+
+For each channel:
+- Platform + specific community/subreddit/newsletter
+- Message/angle that will resonate
+- Expected CAC
+- Expected volume
+
+Cold outreach template (50-word max email that gets replies):
+Landing page headline options (3 variants A/B test):
+First 10 beta users acquisition plan:</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-coral" style="background:rgba(248,113,113,0.08);color:var(--coral)">PROMPT B-03</div><div class="card-title">Financial Model (Lean)</div><div class="card-subtitle">12-month P&L projection with assumptions.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Build a 12-month financial model for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Pricing: <span class="prompt-var">[TIERS + PRICES FROM B-01]</span>
+Monthly costs: <span class="prompt-var">[INFRA + TEAM + TOOLS]</span>
+Growth assumption: <span class="prompt-var">[% MoM USER GROWTH]</span>
+Churn assumption: <span class="prompt-var">[MONTHLY CHURN %]</span>
+Free-to-paid conversion: <span class="prompt-var">[%]</span>
+
+Output a month-by-month table:
+| Month | New Users | Paid Users | MRR | Churn | Net MRR | Costs | Profit/Loss |
+
+Key milestones to highlight:
+- Month we hit default alive (revenue > costs)
+- Month we hit $1K MRR / $10K MRR
+- Total capital needed before profitability
+
+Assumptions section: list every assumption made — flag the 3 most dangerous ones.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-coral" style="background:rgba(248,113,113,0.08);color:var(--coral)">PROMPT B-04</div><div class="card-title">Positioning & Messaging</div><div class="card-subtitle">Nail the one-liner, tagline, and core messaging pillars.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a brand strategist. Create the messaging framework for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Category: <span class="prompt-var">[WHAT WE DO]</span>
+Primary user: <span class="prompt-var">[ICP]</span>
+Key benefit: <span class="prompt-var">[TOP VALUE PROP]</span>
+Competitors: <span class="prompt-var">[MAIN ALTERNATIVES]</span>
+
+Create:
+1. Positioning statement: "For [user] who [problem], [product] is the [category] that [key benefit]. Unlike [competitor], we [key differentiator]."
+2. Tagline options (5 variants, 3–7 words each)
+3. One-liner (25 words max) for cold outreach
+4. Hero headline for landing page (pain-led vs outcome-led variants)
+5. Three messaging pillars (core claims we can prove)
+6. Proof points for each pillar (stats, case studies, testimonials)
+7. Words to avoid (category clichés that make us sound like everyone else)
+8. Tone of voice: 3 adjectives, 1 brand we sound like</div>
+  </div>
+</div>
+
+<!-- ========== TAB: BUILD ENGINE ========== -->
+<div class="tab-panel" id="tab-build">
+  <div class="section-title">Layer 5 — Build Engine</div>
+  <div class="section-subtitle">Prompts for generating production-grade code, components, and deployment configs.</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-blue" style="background:rgba(96,165,250,0.08);color:var(--blue)">PROMPT BL-01</div><div class="card-title">Full-Stack Feature Build</div><div class="card-subtitle">Build any feature end-to-end: DB → API → UI in one prompt.</div></div>
+      <span class="badge badge-gold">POWER PROMPT</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a senior full-stack engineer. Build this feature completely:
+
+Feature: <span class="prompt-var">[FEATURE NAME]</span>
+Stack: <span class="prompt-var">[STACK FROM T-01]</span>
+User story: <span class="prompt-var">[FROM P-04]</span>
+DB schema: <span class="prompt-var">[RELEVANT TABLES FROM T-03]</span>
+
+Build in this order:
+1. DB migration (SQL)
+2. API route(s) — full code with error handling
+3. Input validation schema (Zod / Joi)
+4. Frontend component — full code, responsive, accessible
+5. Loading + error + empty states for the UI
+6. Unit test for the core logic
+7. Integration test for the API route
+
+Rules:
+- TypeScript only
+- Handle all error cases explicitly (no silent failures)
+- Include JSDoc comments on public functions
+- No TODO comments — write the actual implementation
+- Production-ready: auth check, rate limit, input sanitize
+
+Output each file as a separate code block with the file path as a comment.</div>
+    <div class="alternates-toggle" onclick="toggleAlts(this)"><span class="arrow">▶</span> Show alternate versions</div>
+    <div class="alternates-panel">
+      <div class="alt-label">Alt A — Frontend only (UI component)</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Build a React component for <span class="prompt-var">[FEATURE]</span>.
+Use <span class="prompt-var">[Tailwind / shadcn / MUI]</span>. 
+Include: props interface, loading state, error state, empty state, responsive breakpoints.
+Add micro-animations using Framer Motion for key interactions.
+Follow WCAG 2.1 AA accessibility standards.</div>
+      <div class="alt-label">Alt B — Backend API only</div>
+      <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Build a REST API for <span class="prompt-var">[FEATURE]</span> using <span class="prompt-var">[Express/FastAPI/Next.js API routes]</span>.
+Include: auth middleware, request validation, error handling, response formatting, rate limiting.
+Write OpenAPI spec for each endpoint. Include curl examples for testing.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-blue" style="background:rgba(96,165,250,0.08);color:var(--blue)">PROMPT BL-02</div><div class="card-title">Auth System Build</div><div class="card-subtitle">Complete auth: signup, login, sessions, OAuth, RBAC.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Build a complete authentication system for:
+
+Stack: <span class="prompt-var">[FRAMEWORK]</span>
+Auth provider: <span class="prompt-var">[Supabase Auth / Clerk / NextAuth / Custom JWT]</span>
+OAuth providers needed: <span class="prompt-var">[Google / GitHub / etc]</span>
+User roles needed: <span class="prompt-var">[admin / user / etc]</span>
+
+Build:
+1. Sign up flow (email + OAuth) with email verification
+2. Sign in flow with remember me
+3. Password reset flow
+4. Session management + JWT refresh
+5. Auth middleware (protect routes)
+6. Role-based access control (RBAC) setup
+7. "Magic link" login option
+
+Include:
+- Database tables for users, sessions, roles
+- All API routes with validation
+- Frontend forms with client-side validation
+- Error handling for all auth failure cases
+- Rate limiting on auth endpoints</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-blue" style="background:rgba(96,165,250,0.08);color:var(--blue)">PROMPT BL-03</div><div class="card-title">Payments Integration</div><div class="card-subtitle">Stripe setup: one-time, subscriptions, webhooks, portal.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Integrate Stripe payments for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Payment type: <span class="prompt-var">[SUBSCRIPTION / ONE-TIME / USAGE-BASED]</span>
+Pricing tiers: <span class="prompt-var">[FROM B-01]</span>
+Stack: <span class="prompt-var">[FRAMEWORK]</span>
+
+Build:
+1. Stripe product + price setup (CLI commands)
+2. Checkout session creation API route
+3. Success + cancel redirect handling
+4. Webhook handler for: payment_intent.succeeded, customer.subscription.*, invoice.payment_failed
+5. Customer portal integration (manage subscription)
+6. Subscription status check middleware
+7. DB schema: subscriptions, payments tables
+8. Frontend: pricing page, upgrade flow, billing section
+
+Include: test mode setup, webhook local testing with Stripe CLI, error handling for failed payments.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-blue" style="background:rgba(96,165,250,0.08);color:var(--blue)">PROMPT BL-04</div><div class="card-title">Landing Page Generator</div><div class="card-subtitle">Build a high-converting landing page from your positioning doc.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Build a high-converting landing page for:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Positioning: <span class="prompt-var">[FROM B-04 — headline, tagline, pillars]</span>
+Primary CTA: <span class="prompt-var">[SIGN UP FREE / REQUEST DEMO / JOIN WAITLIST]</span>
+Social proof: <span class="prompt-var">[TESTIMONIALS / USER COUNT / LOGOS]</span>
+
+Build in Next.js + Tailwind with these sections:
+1. Hero: headline, subheadline, CTA, hero image/mockup area
+2. Social proof bar (logos or user count)
+3. Problem section (pain before our solution)
+4. Solution section (3 key features with icons)
+5. How it works (3-step visual flow)
+6. Testimonials (3 cards)
+7. Pricing section (3 tiers)
+8. FAQ (5 questions)
+9. Final CTA + footer
+
+SEO: Add meta tags, OG image placeholder, semantic HTML.
+Performance: lazy load images, no layout shift, Lighthouse 90+.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-blue" style="background:rgba(96,165,250,0.08);color:var(--blue)">PROMPT BL-05</div><div class="card-title">Deployment & DevOps Setup</div><div class="card-subtitle">CI/CD, environment management, monitoring from day 1.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Set up the DevOps infrastructure for:
+
+Stack: <span class="prompt-var">[STACK]</span>
+Hosting: <span class="prompt-var">[Vercel / Railway / Render / AWS / GCP]</span>
+DB: <span class="prompt-var">[DATABASE + HOSTING]</span>
+
+Set up:
+1. Environment management (.env.local, .env.production, secrets)
+2. GitHub Actions CI pipeline: lint → test → build → deploy
+3. Preview deployments for PRs
+4. Production deployment with zero-downtime
+5. Database migration strategy (auto-run in CI vs manual)
+6. Error monitoring setup (Sentry — free tier config)
+7. Uptime monitoring (Better Uptime / UptimeRobot — free)
+8. Log aggregation setup
+9. Backup strategy for database
+10. Custom domain + SSL setup
+
+Output: all config files, GitHub Actions YAML, and Dockerfile if needed.</div>
+  </div>
+</div>
+
+<!-- ========== TAB: CLIENT LOOP ========== -->
+<div class="tab-panel" id="tab-client">
+  <div class="section-title">Client Loop — Keeping Them In The Building</div>
+  <div class="section-subtitle">Prompts for discovery, updates, feedback, and managing expectations at every stage.</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">CLIENT-01</div><div class="card-title">Discovery Session Framework</div><div class="card-subtitle">Run the first client session and extract everything you need to start.</div></div>
+      <span class="badge badge-gold">SESSION 1</span>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are a product discovery expert conducting the first session with a new client.
+
+Their raw idea: <span class="prompt-var">[CLIENT'S WORDS — PASTE EXACTLY AS THEY SAID IT]</span>
+
+Ask these questions in a warm, conversational way — not as a list. 
+Explore one at a time, go deep, don't rush:
+
+1. Tell me about the moment you first thought of this. What were you frustrated about?
+2. Who do you imagine using this first? Do you know them personally?
+3. Have you talked to potential users yet? What did they say?
+4. What have you already tried building or testing?
+5. What does success look like in 12 months? (revenue, users, impact)
+6. What would make you declare this a failure and shut it down?
+7. Who else is working on this with you?
+8. What's your biggest fear about this project?
+9. What resources do you have? (time, money, team, connections)
+10. What do you need from me specifically?
+
+After all answers: output the Client Brief document to be passed into Prompt V-01.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">CLIENT-02</div><div class="card-title">Weekly Status Update Generator</div><div class="card-subtitle">Generate a clear, professional progress update for clients.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Generate a weekly status update email for my client.
+
+Week number: <span class="prompt-var">[N]</span>
+What we planned: <span class="prompt-var">[PASTE LAST WEEK'S PLAN]</span>
+What we actually did: <span class="prompt-var">[BULLET LIST OF COMPLETED ITEMS]</span>
+Blockers encountered: <span class="prompt-var">[LIST]</span>
+Next week plan: <span class="prompt-var">[BULLET LIST]</span>
+Key decision needed from client: <span class="prompt-var">[IF ANY]</span>
+Current status: <span class="prompt-var">[ON TRACK / AT RISK / DELAYED]</span>
+
+Write a professional but warm email that:
+- Opens with 1 positive highlight
+- Is honest about blockers without causing panic
+- Clearly states what needs client input
+- Closes with a clear ask for the week
+- Is max 200 words
+
+Also generate: a 3-slide deck outline (title, progress, next week) for async Loom update.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">CLIENT-03</div><div class="card-title">Milestone Review & Demo Script</div><div class="card-subtitle">Prepare for milestone demos with talking points and expected questions.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Prepare a milestone demo script for:
+
+Milestone: <span class="prompt-var">[MILESTONE NAME, e.g. "MVP Demo - Week 4"]</span>
+What was built: <span class="prompt-var">[FEATURE LIST]</span>
+What still has gaps: <span class="prompt-var">[HONEST LIST]</span>
+Client expectations set: <span class="prompt-var">[WHAT WE PROMISED]</span>
+Next milestone: <span class="prompt-var">[WHAT COMES NEXT]</span>
+
+Write:
+1. Demo flow (step-by-step what to show and in what order)
+2. Talking points for each feature (benefit-first, not tech-first)
+3. How to handle the gaps gracefully (frame as "by design" or "in backlog")
+4. 5 questions the client will likely ask — and ideal answers for each
+5. Call-to-action at end of demo (what decision do we need from them?)
+6. Follow-up email template (send within 1 hour of demo)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">CLIENT-04</div><div class="card-title">Scope Change Management</div><div class="card-subtitle">Handle "can we add just one more thing" professionally.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>A client wants to add a new feature mid-project. Help me respond.
+
+Original scope: <span class="prompt-var">[ORIGINAL FEATURES]</span>
+New request: <span class="prompt-var">[WHAT CLIENT WANTS TO ADD]</span>
+Current timeline: <span class="prompt-var">[WEEKS REMAINING]</span>
+Impact: <span class="prompt-var">[ROUGH ESTIMATE OF ADDED WORK]</span>
+
+Write:
+1. A professional email acknowledging the request positively
+2. Analysis: what is the actual impact on timeline + cost?
+3. Three options to offer the client:
+   a. Add it — here's the cost + timeline impact
+   b. Add it in Phase 2 — here's when
+   c. Replace something — what to cut instead
+4. Recommended option with rationale
+5. A scope change document template they can sign off on
+
+Keep the tone: collaborative, not defensive. We're on their side.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div><div class="layer-pill badge-gold" style="background:rgba(240,192,64,0.1);color:var(--gold)">CLIENT-05</div><div class="card-title">User Feedback Analysis</div><div class="card-subtitle">Turn messy user feedback into a prioritized action plan.</div></div>
+    </div>
+    <div class="prompt-box">
+      <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Analyze this batch of user feedback and turn it into action:
+
+Product: <span class="prompt-var">[PRODUCT]</span>
+Feedback collected: <span class="prompt-var">[PASTE ALL RAW FEEDBACK — INTERVIEWS, EMAILS, REVIEWS]</span>
+Current version: <span class="prompt-var">[WHAT'S LIVE]</span>
+
+Analyze:
+1. Cluster feedback into themes (group similar issues)
+2. Frequency + sentiment for each theme
+3. Distinguish: bug reports vs feature requests vs UX confusion vs missing features
+4. Quote the most impactful individual piece of feedback (the one that should keep us up at night)
+5. Prioritized action list: Critical / High / Medium / Low
+6. Feature requests to add to backlog with user quote as rationale
+7. Quick wins (can be fixed in < 1 day) — ship these first
+8. What the data tells us about our ICP fit (are the right people using this?)</div>
+  </div>
+</div>
+
+<!-- ========== TAB: PROMPT LIBRARY ========== -->
+<div class="tab-panel" id="tab-prompts">
+  <div class="section-title">Complete Prompt Library</div>
+  <div class="section-subtitle">Every prompt in the system, organized. Use as a quick-reference during any session.</div>
+
+  <div class="grid-2">
+    <div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>💡 Validation Prompts (V-01 to V-05)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>V-01</strong> — Idea extraction & structuring</div></li>
+            <li><span class="check-icon">▸</span><div><strong>V-02</strong> — Market size & TAM/SAM/SOM</div></li>
+            <li><span class="check-icon">▸</span><div><strong>V-03</strong> — Competitor deep-dive & positioning map</div></li>
+            <li><span class="check-icon">▸</span><div><strong>V-04</strong> — User persona generation (3 ICPs)</div></li>
+            <li><span class="check-icon">▸</span><div><strong>V-05</strong> — Feasibility scorecard (GO/NO-GO)</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>📋 Product Planning Prompts (P-01 to P-05)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>P-01</strong> — Full PRD generation</div></li>
+            <li><span class="check-icon">▸</span><div><strong>P-02</strong> — MVP scope definition</div></li>
+            <li><span class="check-icon">▸</span><div><strong>P-03</strong> — 3-phase roadmap generation</div></li>
+            <li><span class="check-icon">▸</span><div><strong>P-04</strong> — User story generator</div></li>
+            <li><span class="check-icon">▸</span><div><strong>P-05</strong> — Feature prioritization (RICE)</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>⚙️ Tech Architecture Prompts (T-01 to T-05)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>T-01</strong> — Tech stack recommendation</div></li>
+            <li><span class="check-icon">▸</span><div><strong>T-02</strong> — System architecture design</div></li>
+            <li><span class="check-icon">▸</span><div><strong>T-03</strong> — Database schema design</div></li>
+            <li><span class="check-icon">▸</span><div><strong>T-04</strong> — AI/LLM integration architecture</div></li>
+            <li><span class="check-icon">▸</span><div><strong>T-05</strong> — Security review checklist</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>💰 Business Model Prompts (B-01 to B-04)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>B-01</strong> — Revenue model design</div></li>
+            <li><span class="check-icon">▸</span><div><strong>B-02</strong> — Go-to-market strategy</div></li>
+            <li><span class="check-icon">▸</span><div><strong>B-03</strong> — Financial model (12-month P&L)</div></li>
+            <li><span class="check-icon">▸</span><div><strong>B-04</strong> — Positioning & messaging</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>🔨 Build Engine Prompts (BL-01 to BL-05)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>BL-01</strong> — Full-stack feature build</div></li>
+            <li><span class="check-icon">▸</span><div><strong>BL-02</strong> — Auth system build</div></li>
+            <li><span class="check-icon">▸</span><div><strong>BL-03</strong> — Stripe payments integration</div></li>
+            <li><span class="check-icon">▸</span><div><strong>BL-04</strong> — Landing page generator</div></li>
+            <li><span class="check-icon">▸</span><div><strong>BL-05</strong> — Deployment & DevOps setup</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="acc-header" onclick="toggleAcc(this)"><span>🤝 Client Loop Prompts (C-01 to C-05)</span><span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul class="checklist">
+            <li><span class="check-icon">▸</span><div><strong>C-01</strong> — Discovery session framework</div></li>
+            <li><span class="check-icon">▸</span><div><strong>C-02</strong> — Weekly status update generator</div></li>
+            <li><span class="check-icon">▸</span><div><strong>C-03</strong> — Milestone demo script</div></li>
+            <li><span class="check-icon">▸</span><div><strong>C-04</strong> — Scope change management</div></li>
+            <li><span class="check-icon">▸</span><div><strong>C-05</strong> — User feedback analysis</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:0;background:rgba(240,192,64,0.04);border-color:rgba(240,192,64,0.15)">
+        <div class="card-title">Master Context Prompt</div>
+        <div style="margin-top:10px;color:var(--text2);font-size:12px;margin-bottom:12px">Paste this at the start of EVERY new Claude session to maintain continuity.</div>
+        <div class="prompt-box" style="font-size:11.5px">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>You are my AI co-founder helping me build <span class="prompt-var">[PRODUCT NAME]</span>.
+
+Here is our complete product context:
+
+IDEA BRIEF: <span class="prompt-var">[PASTE V-01 OUTPUT]</span>
+PRIMARY PERSONA: <span class="prompt-var">[PASTE V-04 PERSONA 1]</span>  
+CURRENT PHASE: <span class="prompt-var">[VALIDATION / PLANNING / BUILD / LAUNCH]</span>
+STACK: <span class="prompt-var">[PASTE T-01 OUTPUT]</span>
+WHAT WE'VE BUILT: <span class="prompt-var">[BULLET LIST]</span>
+WHAT'S WORKING: <span class="prompt-var">[USER FEEDBACK HIGHLIGHTS]</span>
+TOP PRIORITY THIS WEEK: <span class="prompt-var">[THIS WEEK'S GOAL]</span>
+
+Today I need help with: <span class="prompt-var">[SPECIFIC TASK]</span>
+
+Do not repeat back this context. Jump straight into helping.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-title" style="font-size:18px">Bonus Prompts</div>
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <div class="card-title">Email Campaign Generator</div>
+      <div class="prompt-box" style="font-size:11.5px;margin-top:12px">
+        <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Write a 5-email onboarding sequence for <span class="prompt-var">[PRODUCT]</span>.
+Day 0: Welcome + get started
+Day 2: Show the #1 feature
+Day 5: Social proof + use case
+Day 10: Upgrade prompt
+Day 14: Check-in / survey
+
+Each email: subject line (A/B variant), 150-word max body, 1 clear CTA.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Product Hunt Launch Copy</div>
+      <div class="prompt-box" style="font-size:11.5px;margin-top:12px">
+        <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Write Product Hunt launch copy for <span class="prompt-var">[PRODUCT]</span>.
+Include: tagline (60 chars max), description (260 chars), long description (500 words), 
+first comment from maker (personal story + ask for support), 
+and 5 questions to ask the community for engagement.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Technical Interview (Hire Engineers)</div>
+      <div class="prompt-box" style="font-size:11.5px;margin-top:12px">
+        <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Create a take-home technical challenge to hire a <span class="prompt-var">[ROLE]</span> for <span class="prompt-var">[PRODUCT]</span>.
+Relevant stack: <span class="prompt-var">[STACK]</span>. Time limit: 3 hours.
+Include: problem statement, requirements, bonus points, evaluation rubric.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Investor Pitch Deck Outline</div>
+      <div class="prompt-box" style="font-size:11.5px;margin-top:12px">
+        <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>Create a 10-slide pitch deck outline for <span class="prompt-var">[PRODUCT]</span>.
+Context: <span class="prompt-var">[PASTE ALL OUTPUTS SO FAR]</span>
+
+Slides: Problem, Solution, Market, Product demo, Business model, Traction, Team, Roadmap, Ask, Contact.
+For each slide: title, 3 bullet points, 1 visual suggestion, 1 key number to feature.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TAB: TOOLS ARSENAL ========== -->
+<div class="tab-panel" id="tab-tools">
+  <div class="section-title">Tools Arsenal</div>
+  <div class="section-subtitle">Every tool you need to run the full ecosystem. Free-first. Paid when it matters.</div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">🤖 AI & LLM</div>
+    <table class="tools-table">
+      <tr><th>Tool</th><th>Purpose</th><th>Cost</th><th>Best For</th></tr>
+      <tr><td><span class="tool-name">Claude Sonnet 4.5</span></td><td class="tool-desc">Main orchestration, code, strategy</td><td class="tool-cost paid">$3/M tokens in</td><td class="tool-desc">Everything in this handbook</td></tr>
+      <tr><td><span class="tool-name">Claude Opus 4.5</span></td><td class="tool-desc">Complex reasoning, architecture</td><td class="tool-cost paid">$15/M tokens</td><td class="tool-desc">T-02, T-03, B-03 prompts</td></tr>
+      <tr><td><span class="tool-name">GPT-4o</span></td><td class="tool-desc">Second opinion, multimodal</td><td class="tool-cost paid">$5/M tokens</td><td class="tool-desc">Cross-validate key decisions</td></tr>
+      <tr><td><span class="tool-name">Perplexity Pro</span></td><td class="tool-desc">Market research with web search</td><td class="tool-cost paid">$20/month</td><td class="tool-desc">V-02, V-03 prompts</td></tr>
+      <tr><td><span class="tool-name">Whisper (OpenAI)</span></td><td class="tool-desc">Transcribe client calls</td><td class="tool-cost free">Free (local)</td><td class="tool-desc">Capture discovery sessions</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">🏗 Infra & Hosting</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">Vercel</span><div class="tool-desc">Frontend hosting + preview deploys</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Railway</span><div class="tool-desc">Backend + DB hosting</div></td><td class="tool-cost paid">$5/month</td></tr>
+        <tr><td><span class="tool-name">Supabase</span><div class="tool-desc">Postgres + auth + storage + realtime</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Cloudflare</span><div class="tool-desc">DNS, CDN, Workers edge</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Upstash</span><div class="tool-desc">Redis cache + rate limiting</div></td><td class="tool-cost free">Free tier</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">💳 Payments & Revenue</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">Stripe</span><div class="tool-desc">Payments, subscriptions, billing</div></td><td class="tool-cost paid">2.9% + 30¢</td></tr>
+        <tr><td><span class="tool-name">Lemon Squeezy</span><div class="tool-desc">Merchant of record (no tax headache)</div></td><td class="tool-cost paid">5% + 50¢</td></tr>
+        <tr><td><span class="tool-name">Paddle</span><div class="tool-desc">B2B SaaS billing + tax</div></td><td class="tool-cost paid">5% + 50¢</td></tr>
+        <tr><td><span class="tool-name">Stripe Billing</span><div class="tool-desc">Usage-based billing</div></td><td class="tool-cost paid">0.5% of revenue</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">📧 Email & Comms</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">Resend</span><div class="tool-desc">Transactional email API</div></td><td class="tool-cost free">3K/month free</td></tr>
+        <tr><td><span class="tool-name">Loops</span><div class="tool-desc">SaaS email marketing</div></td><td class="tool-cost free">Free to 1K</td></tr>
+        <tr><td><span class="tool-name">Postmark</span><div class="tool-desc">High deliverability transactional</div></td><td class="tool-cost free">100/month free</td></tr>
+        <tr><td><span class="tool-name">Crisp</span><div class="tool-desc">Live chat + support</div></td><td class="tool-cost free">Free tier</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">📊 Analytics & Monitoring</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">PostHog</span><div class="tool-desc">Product analytics + session replay</div></td><td class="tool-cost free">1M events free</td></tr>
+        <tr><td><span class="tool-name">Sentry</span><div class="tool-desc">Error tracking + performance</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Plausible</span><div class="tool-desc">Privacy-first web analytics</div></td><td class="tool-cost paid">$9/month</td></tr>
+        <tr><td><span class="tool-name">Better Uptime</span><div class="tool-desc">Uptime monitoring + status page</div></td><td class="tool-cost free">Free tier</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">🛠 Dev Tools</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">GitHub</span><div class="tool-desc">Version control + CI/CD + Actions</div></td><td class="tool-cost free">Free</td></tr>
+        <tr><td><span class="tool-name">Linear</span><div class="tool-desc">Issue tracking + sprint planning</div></td><td class="tool-cost free">Free to 3 users</td></tr>
+        <tr><td><span class="tool-name">Cursor</span><div class="tool-desc">AI-native code editor</div></td><td class="tool-cost paid">$20/month</td></tr>
+        <tr><td><span class="tool-name">Prettier + ESLint</span><div class="tool-desc">Code formatting + linting</div></td><td class="tool-cost free">Free (OSS)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">📝 Docs & Collaboration</div>
+      <table class="tools-table">
+        <tr><th>Tool</th><th>Cost</th></tr>
+        <tr><td><span class="tool-name">Notion</span><div class="tool-desc">Product docs, PRDs, wikis</div></td><td class="tool-cost free">Free for personal</td></tr>
+        <tr><td><span class="tool-name">Loom</span><div class="tool-desc">Async video updates for clients</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Figma</span><div class="tool-desc">Design, prototyping, handoff</div></td><td class="tool-cost free">Free tier</td></tr>
+        <tr><td><span class="tool-name">Excalidraw</span><div class="tool-desc">Quick diagrams + whiteboarding</div></td><td class="tool-cost free">Free (OSS)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:4px;background:rgba(45,212,191,0.04);border-color:rgba(45,212,191,0.15)">
+    <div class="card-title">Minimum Viable Stack (MVC — Minimum Viable Cost)</div>
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--teal)">Next.js (free)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--teal)">Supabase (free)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--teal)">Vercel (free)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--teal)">Resend (free)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--teal)">PostHog (free)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--gold)">Stripe (% only)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--gold)">Claude API (~$50/mo)</span>
+      <span style="background:var(--bg3);border:1px solid var(--border2);padding:6px 12px;border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--gold)">Domain ($12/yr)</span>
+    </div>
+    <div style="margin-top:14px;font-family:var(--font-mono);font-size:13px;color:var(--text2)">
+      Total fixed cost to launch: <span style="color:var(--gold);font-weight:500">~$62/month</span> until you hit revenue.
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  const tabs = ['master','validation','product','tech','business','build','client','prompts','tools'];
+  const idx = tabs.indexOf(tab);
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+}
+
+function copyPrompt(btn) {
+  const box = btn.parentElement;
+  const text = box.innerText.replace('COPY','').replace('COPIED!','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function toggleAlts(el) {
+  el.classList.toggle('open');
+  const panel = el.nextElementSibling;
+  panel.classList.toggle('open');
+}
+
+function toggleAcc(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>
